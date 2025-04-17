@@ -1,0 +1,42 @@
+✅REST API란?
+REST API는 REST (Representational State Transfer) 원칙을 따르는 웹 API
+웹 자원을 URL로 표현하고, **HTTP 요청 방식(GET, POST 등)**으로 데이터를 주고받는 방식.
+
+✅구성 요소
+1. 자원(Resource)
+→ 웹에서 다루는 데이터. 예: 유저 정보, 게시글, 사진 등
+→ URL로 표현.
+예시:
+https://api.example.com/users
+
+2. 행위(Verb)
+→ HTTP 메서드로 동작을 정의
+
+메서드
+GET: 데이터 조회.	ex)유저 정보 가져오기
+POST: 데이터 생성.	ex)새 글 등록하기
+PUT: 데이터 전체 수정.	ex)유저 정보 전체 변경
+PATCH: 데이터 일부 수정.	ex)비밀번호만 변경
+DELETE:	데이터 삭제.	ex)게시글 삭제
+
+3. 표현(Representation)
+→ 주고받는 데이터 형식 (보통 JSON, 때때로 XML)
+→ 사람이 읽기 쉬운 구조로 정보를 전달.
+
+✅간단한 예시
+→ 유저 목록 가져오기 (GET)
+GET https://api.example.com/users
+
+→ 응답:
+[
+  { "id": 1, "name": "Geonho" },
+  { "id": 2, "name": "Yunseong" }
+]
+
+→ 유저 추가하기 (POST)
+POST https://api.example.com/users
+Content-Type: application/json
+
+{
+  "name": "New User"
+}
