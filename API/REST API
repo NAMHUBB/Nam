@@ -1,4 +1,4 @@
-✅REST API란?
+✅###REST API란?
 REST API는 REST (Representational State Transfer) 원칙을 따르는 웹 API
 웹 자원을 URL로 표현하고, **HTTP 요청 방식(GET, POST 등)**으로 데이터를 주고받는 방식.
 
