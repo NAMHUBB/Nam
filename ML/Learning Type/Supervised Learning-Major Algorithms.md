@@ -12,6 +12,26 @@
 
 **사용 사례**: 주택 가격 예측, 온도 예측 등
 
+```python
+from sklearn.datasets import load_diabetes   # scikit-learn에 내장된 당뇨병 예측용 회귀 데이터셋을 불러오기
+from sklearn.linear_model import LinearRegression   # 선형 회귀 모델을 사용하기 위한 클래스를 불러오기
+from sklearn.model_selection import train_test_split   # 데이터를 학습용과 테스트용으로 나누기 위한 함수
+from sklearn.metrics import mean_squared_error   # 평균제곱오차(MSE)
+
+1. 데이터 불러오기 (당뇨병 회귀 데이터셋)
+X, y = load_diabetes(return_X_y=True)   # X: 입력 데이터 (환자의 건강 지표 등)/ y: 출력값, 즉 예측하려는 값 (당뇨 진행 정도를 나타내는 수치)
+
+2. 데이터 분할
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)   # 전체 데이터의 70%는 학습용 (X_train, y_train), 30%는 테스트용 (X_test, y_test)으로 분할
+
+3. 선형 회귀 모델 생성 및 학습
+model = LinearRegression()   # 선형 회귀 모델 객체를 생성
+model.fit(X_train, y_train)   # 학습 데이터를 기반으로 모델 학습
+
+4. 예측 및 MSE 평가
+y_pred = model.predict(X_test)   # 테스트 데이터를 사용하여 예측 수행
+print("Mean Squared Error:", mean_squared_error(y_test, y_pred))   # 예측값과 실제값 사이의 평균제곱오차(MSE)를 출력하여 회귀 성능 평가
+```
 
 ## 2. **로지스틱 회귀 (Logistic Regression)**
 
