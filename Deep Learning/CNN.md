@@ -1,6 +1,8 @@
+[
+](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*Q6yA_1B_vsdGWAAwB8Z7rA.png)![image](https://github.com/user-attachments/assets/f3554abe-1214-4c3f-b114-018148e55bd9)
+
 # CNN(Convolutional Neural Network, 합성곱 신경망)이란?
 이미지, 영상, 시계열 데이터 등에 강력한 성능을 보이는 딥러닝 구조
-
 ## 기초 개념
 - 합성곱(Convolution): 이미지 특징을 추출하는 연산. 필터(kernel)을 통해 입력 데이터를 스캔. 
 - 필터/커널: 입력 이미지에 적용되는 작은 행렬. 특징을 감지. 
