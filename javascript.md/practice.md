@@ -91,5 +91,86 @@
 </html>
 
 ```
+### 변수 선언과 데이터 가져오기
+
+```javascript 
+
+const price = parseFloat(document.getElementById('price').value);
+const rate = parseFloat(document.getElementById('rate').value);
+
+```
+| 문법 요소                           | 설명                    |
+| ------------------------------- | --------------------- |
+| `const`                         | 상수 선언 (재할당 불가)        |
+| `document.getElementById('id')` | HTML 요소를 ID로 찾음       |
+| `.value`                        | 입력창에 입력된 값을 가져옴 (문자열) |
+| `parseFloat()`                  | 문자열을 실수형 숫자로 변환   |
+
+<br>
+
+### 조건문(if문)
+```
+if (isNaN(price) || isNaN(rate) || price <= 0 || rate < 0 || rate > 100) {
+  // 오류 메시지 처리
+}
+```
+| 문법 요소                | 설명                                |    |               |
+| -------------------- | --------------------------------- | -- | ------------- |
+| `if (...)`           | 조건이 참일 때 코드 실행                    |    |               |
+| `isNaN()`            | 값이 숫자가 아닌 경우 true 반환              |    |               |
+| \`                   |                                   | \` | **또는(OR)** 조건 |
+| `&&`                 | **그리고(AND)** 조건 (이 예제엔 없지만 자주 쓰임) |    |               |
+| `<=`, `>=`, `<`, `>` | 비교 연산자                            |    |               |
+
+<br>
+
+###  연산자
+```javascript 
+const discount = price * (rate / 100);
+const final = price - discount;
+```
+| 연산자           | 의미                    |
+| ------------- | --------------------- |
+| `*`, `/`, `-` | 산술 연산자: 곱셈, 나눗셈, 뺄셈   |
+| `=`           | 할당 연산자                |
+| `()`          | 연산 우선순위 지정 (괄호 먼저 계산) |
+
+<br>
+
+###  문자출력 (DOM 조작)
+```javascript
+output.textContent = "문자열";
+output.innerHTML = `템플릿 문자열`;
+```
+| 요소            | 설명                                |
+| ------------- | --------------------------------- |
+| `textContent` | HTML 없이 **순수 텍스트만 출력**            |
+| `innerHTML`   | HTML 태그 포함하여 출력 가능                |
+| 백틱(`` ` ``)   | **템플릿 리터럴**: `${변수}`로 문자열 안에 값 삽입 |
+
+<br>
+
+###  스타일 변경
+```javascript
+output.style.color = "red";
+```
+- `style.속성명 = 값` 으로 JS에서 직접 CSS 변경 가능
+  
+<br>
+
+###  숫자 형식 지정
+```javascript
+price.toLocaleString()
+```
+- 숫자에 콤마(,) 추가 (예: 12000 → 12,000)
+- `toLocaleString()`은 현지화된 숫자 포맷을 만들어줌
+
+
+
+
+
+
+
+
 ![image](https://github.com/user-attachments/assets/ab3728d7-e629-409f-bd74-effb0ac005ce)
 ![image](https://github.com/user-attachments/assets/1c669929-beec-4080-9e3b-7f25d077575d)
