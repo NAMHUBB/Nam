@@ -58,7 +58,15 @@ console.log(name+"님, 어서오세요!");
 ![image](https://github.com/user-attachments/assets/431281f2-3c94-46ce-a594-d834c1a05ce1)
 ![image](https://github.com/user-attachments/assets/31645881-7bc7-48b3-9318-feed8a9380e8)
 
-
+# 자바스크립트 소스를 작성할 떄 지켜야 할 규칙
+1. 대소문자를 구별하여 소스를 작성
+2. 읽기 쉽게 들여 쓰는 습관 갖기
+3. 세미콜론으로 문장을 구분
+4. 자바스크립트 소스에 메모를 하려면 주석을 사용
+5. 식별자는 정해진 규칙을 지켜 작성
+6. 예약어는 식별자로 사용불가
+(arguments, breake, case, continue, default, do, else, false, for, function,
+if, null, return, super, switch, this, true, try, typeof, var, void, while, with)
 
 
 
