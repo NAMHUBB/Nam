@@ -32,4 +32,34 @@ prompt("이름을 입력하세요.","홍길동")
 ```
 ![image](https://github.com/user-attachments/assets/c5b2ddf1-4f7e-4cac-8ea9-e4fd8a31dfc1)
 
+# 웹 브라우저 화면에 출력하기 - document.write()함수
+
+```
+var name = prompt("이름: ");
+document.write(name+"님, 어서오세요!");
+```
+![image](https://github.com/user-attachments/assets/c411cd60-a974-496a-acbb-7f27f452048f)
+![image](https://github.com/user-attachments/assets/c99e1ce1-5fe4-4c4d-9ec7-8086e8e7f91b)
+
+# 알림 창으로 출력하기 - alert()함수
+
+```
+alert("환영합니다.");
+```
+![image](https://github.com/user-attachments/assets/998a812d-d0a3-4e6d-ac31-9e1585f213a6)
+
+# 콘솔에 출력하기 - console.log()함수
+
+```
+var name = prompt("이름: ");
+console.log(name+"님, 어서오세요!");
+```
+
+![image](https://github.com/user-attachments/assets/431281f2-3c94-46ce-a594-d834c1a05ce1)
+![image](https://github.com/user-attachments/assets/31645881-7bc7-48b3-9318-feed8a9380e8)
+
+
+
+
+
 
