@@ -1,3 +1,5 @@
+# 입력한 이름을 이용해 환영 메시지를 출력하는 간단한 웹 페이지
+
 ```js
 <!DOCTYPE html>
 <html lang="ko">
