@@ -36,11 +36,21 @@ check_entry()
 for i in range(1, 11):
     print(i)
 ```
+### 문제: 리스트 값 제곱 출력
+
+```Python
+numbers = [1, 2, 3, 4, 5]
+
+# 각 요소의 제곱 출력
+for num in numbers:
+    print(num ** 2)
+
+```
 
 ### 문제: 1부터 100까지 합 구하기
 
 ```Python
-total = 0
+total = 0    # 누적합, 개수 세기, 최대값 저장 등을 위해 먼저 변수 선언
 for i in range(1, 101):
     total += i
 
@@ -60,7 +70,7 @@ for num in numbers:
 ### 문제: 1~100 사이의 홀수 총합 구하기
 
 ```Python
-total = 0
+total = 0    # 누적합, 개수 세기, 최대값 저장 등을 위해 먼저 변수 선언
 for i in range(1, 101):
     if i % 2 == 1:
         total += i
@@ -76,8 +86,27 @@ for i in range(1, 10):
     print(f"2 x {i} = {2 * i}")
 ```
 
+### 문제: 사용자에게 단 입력받아 해당 구구단 출
+```Python
+dan = int(input("출력할 단을 입력하세요: "))
 
+for i in range(1, 10):
+    print(f"{dan} x {i} = {dan * i}")
 
+```
+
+### 문제: 문자열에서 모음만 출력
+
+```Python
+text = "hello python world"
+vowels = "aeiou"
+
+# 한 글자씩 순회하면서 모음만 출력
+for ch in text:
+    if ch in vowels:
+        print(ch)
+
+```
 
 
 
