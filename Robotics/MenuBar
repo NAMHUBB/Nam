@@ -1,0 +1,745 @@
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControlLabel,
+  IconButton,
+  Radio,
+  RadioGroup,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+  styled,
+} from "@mui/material";
+import { useAtom, useAtomValue } from "jotai";
+import {
+  robotMessageAtom,
+  controlConnectedAtom,
+  dataConnectedAtom,
+  ROBOT_MODE,
+} from "../state/message";
+import { settingsAtom } from "../state/settings";
+import { moveCommandAtom, moveModeAtom } from "../state/ui";
+import Keyboard, { KeyboardInput, SimpleKeyboard } from "react-simple-keyboard";
+import "react-simple-keyboard/build/css/index.css";
+
+import { connect, disconnect, send } from "@kuyoonjo/tauri-plugin-tcp";
+
+import LinkIcon from "@mui/icons-material/Link";
+import LinkOffIcon from "@mui/icons-material/LinkOff";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import LockResetIcon from "@mui/icons-material/LockReset";
+import HomeIcon from "@mui/icons-material/Home";
+import DangerousIcon from "@mui/icons-material/Dangerous";
+import OpenWithIcon from "@mui/icons-material/OpenWith";
+import { inputIsValid, normalizeNumberInputOnChange } from "../utils";
+import { tcpValueAtom } from "../state/robot";
+import { DEG2RAD, RAD2DEG } from "three/src/math/MathUtils.js";
+
+export const MenuBar: React.FC = () => {
+  const [controlConnected, setControlConnected] = useAtom(controlConnectedAtom);
+  const [dataConnected, setDataConnected] = useAtom(dataConnectedAtom);
+
+  const robotMessage = useAtomValue(robotMessageAtom);
+
+  const settings = useAtomValue(settingsAtom);
+
+  const [homeCommandDialogOpen, setHomeCommandDialogOpen] = useState(false);
+
+  const [moveDialogOpen, setMoveDialogOpen] = useState(false);
+  const [moveMode, setMoveMode] = useAtom(moveModeAtom);
+  const [moveCommand, setMoveCommand] = useAtom(moveCommandAtom);
+
+  const tcpValue = useAtomValue(tcpValueAtom);
+
+  const keyboard = useRef<SimpleKeyboard | null>(null);
+
+  const [inputName, setInputName] = useState<
+    "default" | "x" | "y" | "z" | "rx" | "ry" | "rz" | "a" | "v"
+  >("default");
+
+  const onChangeAll = useCallback(
+    (inputs: KeyboardInput) => {
+      if (robotProgramRunning) {
+        return;
+      }
+
+      setMoveCommand((prevCommand) => ({
+        ...prevCommand,
+        [moveMode]: {
+          ...prevCommand[moveMode],
+          ...inputs,
+        },
+      }));
+    },
+    [moveMode]
+  );
+
+  const onChangeInput = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const inputVal = event.target.value;
+
+      const normalizedValue = normalizeNumberInputOnChange(inputVal);
+
+      setMoveCommand((prevCommand) => ({
+        ...prevCommand,
+        [moveMode]: {
+          ...prevCommand[moveMode],
+          [inputName]: normalizedValue,
+        },
+      }));
+
+      if (keyboard.current === null) {
+        return;
+      }
+
+      keyboard.current.setInput(normalizedValue);
+    },
+    [inputName, moveMode]
+  );
+
+  const getInputValue = useCallback(
+    (inputName: "x" | "y" | "z" | "rx" | "ry" | "rz" | "a" | "v") => {
+      return moveCommand[moveMode][inputName] ?? "";
+    },
+    [moveCommand, moveMode]
+  );
+
+  const robotProgramRunning = useMemo(
+    () => robotMessage.programState === 2,
+    [robotMessage.programState]
+  );
+
+  const getinputIsValid = useCallback(
+    (inputName: "x" | "y" | "z" | "rx" | "ry" | "rz" | "a" | "v") => {
+      const inputValue = getInputValue(inputName);
+      return (
+        (inputName !== "a" && inputName !== "v" && inputIsValid(inputValue)) ||
+        ((inputName === "a" || inputName === "v") && parseFloat(inputValue) > 0)
+      );
+    },
+    [getInputValue]
+  );
+
+  const currentTcpValue = useMemo(() => {
+    if (dataConnected) {
+      return {
+        X: robotMessage.toolVectorActual.x * 1000, // mm
+        Y: robotMessage.toolVectorActual.y * 1000, // mm
+        Z: robotMessage.toolVectorActual.z * 1000, // mm
+        Rx: robotMessage.toolVectorActual.rx * RAD2DEG, // deg
+        Ry: robotMessage.toolVectorActual.ry * RAD2DEG, // deg
+        Rz: robotMessage.toolVectorActual.rz * RAD2DEG, // deg
+      };
+    }
+    return {
+      X: tcpValue[0] * 1000, // mm
+      Y: tcpValue[1] * 1000, // mm
+      Z: tcpValue[2] * 1000, // mm
+      Rx: tcpValue[3] * RAD2DEG, // deg
+      Ry: tcpValue[4] * RAD2DEG, // deg
+      Rz: tcpValue[5] * RAD2DEG, // deg
+    };
+  }, [tcpValue, robotMessage]);
+
+  useEffect(() => {
+    if (keyboard.current === null) {
+      return;
+    }
+
+    // Set the input value when the moveMode changes
+    Object.entries(moveCommand[moveMode]).forEach(([key, value]) => {
+      if (value !== undefined) {
+        keyboard.current!.setInput(value.toString(), key);
+      }
+    });
+  }, [moveMode]);
+
+  /**
+   * 단위 mm, deg
+   */
+  const prevTargetTcpRef = useRef({
+    X: 0,
+    Y: 0,
+    Z: 0,
+    Rx: 0,
+    Ry: 0,
+    Rz: 0,
+  });
+
+  /**
+   * 단위 mm, deg
+   */
+  const currentTargetTcp = useMemo(() => {
+    if (robotProgramRunning) {
+      return prevTargetTcpRef.current;
+    }
+
+    prevTargetTcpRef.current = {
+      X:
+        (moveMode === "relative" ? currentTcpValue.X : 0) +
+          parseFloat(
+            getInputValue("x") ||
+              (moveMode === "absolute" ? currentTcpValue.X.toString() : "0")
+          ) || 0,
+      Y:
+        (moveMode === "relative" ? currentTcpValue.Y : 0) +
+          parseFloat(
+            getInputValue("y") ||
+              (moveMode === "absolute" ? currentTcpValue.Y.toString() : "0")
+          ) || 0,
+      Z:
+        (moveMode === "relative" ? currentTcpValue.Z : 0) +
+          parseFloat(
+            getInputValue("z") ||
+              (moveMode === "absolute" ? currentTcpValue.Z.toString() : "0")
+          ) || 0,
+      Rx:
+        (moveMode === "relative" ? currentTcpValue.Rx : 0) +
+          parseFloat(
+            getInputValue("rx") ||
+              (moveMode === "absolute" ? currentTcpValue.Rx.toString() : "0")
+          ) || 0,
+      Ry:
+        (moveMode === "relative" ? currentTcpValue.Ry : 0) +
+          parseFloat(
+            getInputValue("ry") ||
+              (moveMode === "absolute" ? currentTcpValue.Ry.toString() : "0")
+          ) || 0,
+      Rz:
+        (moveMode === "relative" ? currentTcpValue.Rz : 0) +
+          parseFloat(
+            getInputValue("rz") ||
+              (moveMode === "absolute" ? currentTcpValue.Rz.toString() : "0")
+          ) || 0,
+    };
+
+    return prevTargetTcpRef.current;
+  }, [robotProgramRunning, moveMode, currentTcpValue, getInputValue]);
+
+  return (
+    <>
+      <Stack
+        padding={0}
+        width={"100vw"}
+        height={60}
+        direction={"row"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        sx={{
+          backgroundColor: "#eee",
+          transition: "height 0.5s",
+        }}
+      >
+        <Stack flex={1} direction={"row"} alignItems={"center"}>
+          <Tooltip
+            title={controlConnected && dataConnected ? "연결됨" : "연결 안 됨"}
+          >
+            <span>
+              <MenuButton
+                onClick={() => {
+                  if (!controlConnected || !dataConnected) {
+                    const promises = [
+                      connect(
+                        "control",
+                        `${settings.ip}:${settings.controlPort}`
+                      ),
+                      connect("data", `${settings.ip}:${settings.dataPort}`),
+                    ];
+                    Promise.all(promises)
+                      .then(() => {
+                        setControlConnected(true);
+                        setDataConnected(true);
+                      })
+                      .catch(() => {
+                        disconnect("control").then(() => {
+                          setControlConnected(false);
+                        });
+                        disconnect("data").then(() => {
+                          setDataConnected(false);
+                        });
+                      });
+                  } else {
+                    send("control", "power off\n")
+                      .then(() => {
+                        disconnect("control").then(() => {
+                          setControlConnected(false);
+                        });
+                        disconnect("data").then(() => {
+                          setDataConnected(false);
+                        });
+                      })
+                      .catch(() => {
+                        disconnect("control").then(() => {
+                          setControlConnected(false);
+                        });
+                        disconnect("data").then(() => {
+                          setDataConnected(false);
+                        });
+                      });
+                  }
+                }}
+              >
+                {controlConnected && dataConnected ? (
+                  <LinkIcon />
+                ) : (
+                  <LinkOffIcon />
+                )}
+              </MenuButton>
+            </span>
+          </Tooltip>
+          <Tooltip
+            title={
+              robotMessage.robotMode === ROBOT_MODE.POWER_OFF ||
+              robotMessage.robotMode === 0
+                ? "전원 켜기"
+                : "전원 끄기"
+            }
+          >
+            <span>
+              <MenuButton
+                disabled={!controlConnected}
+                onClick={() => {
+                  if (
+                    robotMessage.robotMode === ROBOT_MODE.POWER_OFF ||
+                    robotMessage.robotMode === 0
+                  ) {
+                    send("control", "power on\n")
+                      .then(async () => {
+                        await new Promise((resolve) =>
+                          setTimeout(resolve, 1000)
+                        );
+                        send("control", "brake release\n").catch(() => {});
+                      })
+                      .catch(() => {});
+                  } else {
+                    send("control", "power off\n").catch(() => {});
+                  }
+                }}
+              >
+                <PowerSettingsNewIcon
+                  color={
+                    !controlConnected
+                      ? "disabled"
+                      : robotMessage.robotMode === ROBOT_MODE.POWER_OFF ||
+                        robotMessage.robotMode === 0
+                      ? "inherit"
+                      : "primary"
+                  }
+                />
+              </MenuButton>
+            </span>
+          </Tooltip>
+          <Tooltip title={"리셋"}>
+            <span>
+              <MenuButton
+                disabled={
+                  !controlConnected
+                  // || (robotMessage.robotMode !== 5 &&
+                  //   robotMessage.safetyMode === 1 &&
+                  //   robotMessage.safetyStatus === 1)
+                }
+                onClick={() => {
+                  // if (robotMessage.robotMode === 5) {
+                  // send("control", "brake release\n").catch(() => {});
+                  send("control", "power on\n").catch(() => {});
+                  // } else {
+                  // send("control", "unlock protective stop\n").catch(() => {});
+                  // }
+                }}
+              >
+                <LockResetIcon
+                  color={
+                    !controlConnected
+                      ? "disabled"
+                      : robotMessage.jointMode.some((mode) => mode === 2)
+                      ? "error"
+                      : robotMessage.jointMode.every((mode) => mode === 1)
+                      ? "success"
+                      : "inherit"
+                  }
+                />
+              </MenuButton>
+            </span>
+          </Tooltip>
+          <Tooltip title={"비상 정지"}>
+            <span>
+              <MenuButton
+                disabled={!controlConnected}
+                onClick={() => {
+                  send("control", "power off\n").catch(() => {});
+                }}
+              >
+                <DangerousIcon
+                  color={
+                    !controlConnected
+                      ? "disabled"
+                      : robotMessage.jointMode.some((mode) => mode === 1)
+                      ? "error"
+                      : "inherit"
+                  }
+                />
+              </MenuButton>
+            </span>
+          </Tooltip>
+          <Tooltip title={"홈 위치로 이동"}>
+            <span>
+              <MenuButton
+                disabled={!dataConnected || robotProgramRunning}
+                onClick={() => setHomeCommandDialogOpen(true)}
+              >
+                <HomeIcon />
+              </MenuButton>
+            </span>
+          </Tooltip>
+
+          <Tooltip title={"이동"}>
+            <span>
+              <MenuButton
+                disabled={!dataConnected || robotProgramRunning}
+                onClick={() => setMoveDialogOpen(true)}
+              >
+                <OpenWithIcon />
+              </MenuButton>
+            </span>
+          </Tooltip>
+        </Stack>
+        {dataConnected && (
+          <Stack alignItems={"center"} padding={1}>
+            Data Status : {robotProgramRunning ? "Running" : "Stopped"}
+          </Stack>
+        )}
+      </Stack>
+
+      <Dialog
+        open={homeCommandDialogOpen}
+        onClose={() => setHomeCommandDialogOpen(false)}
+      >
+        <DialogTitle>{"홈 위치로 이동"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>홈 위치로 이동하시겠습니까?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setHomeCommandDialogOpen(false)}>취소</Button>
+          <Button
+            onClick={() => {
+              setHomeCommandDialogOpen(false);
+              send(
+                "data",
+                `movej([${settings.homePositionCommand.j1},${settings.homePositionCommand.j2},${settings.homePositionCommand.j3},${settings.homePositionCommand.j4},${settings.homePositionCommand.j5},${settings.homePositionCommand.j6}],a=${settings.homePositionCommand.a},v=${settings.homePositionCommand.v},t=0,r=0)\n`
+              ).catch(() => {});
+            }}
+          >
+            확인
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={moveDialogOpen} onClose={() => setMoveDialogOpen(false)}>
+        <DialogTitle>{"이동"}</DialogTitle>
+        <DialogContent>
+          <Stack gap={2}>
+            <RadioGroup
+              row
+              value={moveMode}
+              onChange={(event) =>
+                setMoveMode(event.target.value as "relative" | "absolute")
+              }
+            >
+              <FormControlLabel
+                value="relative"
+                control={<Radio disabled={robotProgramRunning} />}
+                label="상대 좌표"
+              />
+              <FormControlLabel
+                value="absolute"
+                control={<Radio disabled={robotProgramRunning} />}
+                label="절대 좌표"
+              />
+            </RadioGroup>
+            <Stack gap={1}>
+              <Stack direction={"row"} alignItems={"center"} gap={1}>
+                <TextField
+                  disabled={robotProgramRunning}
+                  id={"x"}
+                  label={"X"}
+                  size={"small"}
+                  fullWidth
+                  error={!getinputIsValid("x")}
+                  value={getInputValue("x")}
+                  onFocus={() => setInputName("x")}
+                  onChange={onChangeInput}
+                  focused={inputName === "x" ? true : undefined}
+                />
+                <TextField
+                  disabled={robotProgramRunning}
+                  id={"y"}
+                  label={"Y"}
+                  size={"small"}
+                  fullWidth
+                  error={!getinputIsValid("y")}
+                  value={getInputValue("y")}
+                  onFocus={() => setInputName("y")}
+                  onChange={onChangeInput}
+                  focused={inputName === "y" ? true : undefined}
+                />
+                <TextField
+                  disabled={robotProgramRunning}
+                  id={"z"}
+                  label={"Z"}
+                  size={"small"}
+                  fullWidth
+                  error={!getinputIsValid("z")}
+                  value={getInputValue("z")}
+                  onFocus={() => setInputName("z")}
+                  onChange={onChangeInput}
+                  focused={inputName === "z" ? true : undefined}
+                />
+                mm
+              </Stack>
+              <Stack direction={"row"} alignItems={"center"} gap={1}>
+                <TextField
+                  disabled={robotProgramRunning}
+                  id={"rx"}
+                  label={"Rx"}
+                  size={"small"}
+                  fullWidth
+                  error={!getinputIsValid("rx")}
+                  value={getInputValue("rx")}
+                  onFocus={() => setInputName("rx")}
+                  onChange={onChangeInput}
+                  focused={inputName === "rx" ? true : undefined}
+                />
+                <TextField
+                  disabled={robotProgramRunning}
+                  id={"ry"}
+                  label={"Ry"}
+                  size={"small"}
+                  fullWidth
+                  error={!getinputIsValid("ry")}
+                  value={getInputValue("ry")}
+                  onFocus={() => setInputName("ry")}
+                  onChange={onChangeInput}
+                  focused={inputName === "ry" ? true : undefined}
+                />
+                <TextField
+                  disabled={robotProgramRunning}
+                  id={"rz"}
+                  label={"Rz"}
+                  size={"small"}
+                  fullWidth
+                  error={!getinputIsValid("rz")}
+                  value={getInputValue("rz")}
+                  onFocus={() => setInputName("rz")}
+                  onChange={onChangeInput}
+                  focused={inputName === "rz" ? true : undefined}
+                />
+                deg
+              </Stack>
+              <Stack direction={"row"} alignItems={"center"} gap={1}>
+                <TextField
+                  disabled={robotProgramRunning}
+                  id={"a"}
+                  label={"A"}
+                  size={"small"}
+                  fullWidth
+                  error={!getinputIsValid("a")}
+                  value={getInputValue("a")}
+                  onFocus={() => setInputName("a")}
+                  onChange={onChangeInput}
+                  focused={inputName === "a" ? true : undefined}
+                />
+                m/s^2
+                <TextField
+                  disabled={robotProgramRunning}
+                  id={"v"}
+                  label={"V"}
+                  size={"small"}
+                  fullWidth
+                  error={!getinputIsValid("v")}
+                  value={getInputValue("v")}
+                  onFocus={() => setInputName("v")}
+                  onChange={onChangeInput}
+                  focused={inputName === "v" ? true : undefined}
+                />
+                m/s
+              </Stack>
+            </Stack>
+            <Stack direction={"row"}>
+              <Stack
+                flex={1}
+                alignItems={"center"}
+                justifyContent={"space-around"}
+              >
+                <Typography>현재 위치</Typography>
+                <Typography>
+                  X:
+                  {(currentTcpValue.X >= 0 ? " +" : " ") +
+                    currentTcpValue.X.toFixed(3)}{" "}
+                  mm
+                </Typography>
+                <Typography>
+                  Y:
+                  {(currentTcpValue.Y >= 0 ? " +" : " ") +
+                    currentTcpValue.Y.toFixed(3)}{" "}
+                  mm
+                </Typography>
+                <Typography>
+                  Z:
+                  {(currentTcpValue.Z >= 0 ? " +" : " ") +
+                    currentTcpValue.Z.toFixed(3)}{" "}
+                  mm
+                </Typography>
+                <Typography>
+                  Rx:
+                  {(currentTcpValue.Rx >= 0 ? " +" : " ") +
+                    currentTcpValue.Rx.toFixed(2)}{" "}
+                  deg
+                </Typography>
+                <Typography>
+                  Ry:
+                  {(currentTcpValue.Ry >= 0 ? " +" : " ") +
+                    currentTcpValue.Ry.toFixed(2)}{" "}
+                  deg
+                </Typography>
+                <Typography>
+                  Rz:
+                  {(currentTcpValue.Rz >= 0 ? " +" : " ") +
+                    currentTcpValue.Rz.toFixed(2)}{" "}
+                  deg
+                </Typography>
+              </Stack>
+              <Stack flex={1}>
+                <Keyboard
+                  onInit={(instance) => {
+                    Object.entries(moveCommand[moveMode]).forEach(
+                      ([key, value]) => {
+                        if (value !== undefined) {
+                          instance.setInput(value.toString(), key);
+                        }
+                      }
+                    );
+                  }}
+                  keyboardRef={(r) => {
+                    keyboard.current = r;
+                  }}
+                  layout={{
+                    default: ["{bksp}", "1 2 3", "4 5 6", "7 8 9", "- 0 ."],
+                  }}
+                  inputName={inputName}
+                  onChangeAll={onChangeAll}
+                />
+              </Stack>
+              <Stack
+                flex={1}
+                alignItems={"center"}
+                justifyContent={"space-around"}
+              >
+                <Typography>목표 위치</Typography>
+                <Typography>
+                  X:
+                  {(currentTargetTcp.X >= 0 ? " +" : " ") +
+                    currentTargetTcp.X.toFixed(3)}{" "}
+                  mm
+                </Typography>
+                <Typography>
+                  Y:
+                  {(currentTargetTcp.Y >= 0 ? " +" : " ") +
+                    currentTargetTcp.Y.toFixed(3)}{" "}
+                  mm
+                </Typography>
+                <Typography>
+                  Z:
+                  {(currentTargetTcp.Z >= 0 ? " +" : " ") +
+                    currentTargetTcp.Z.toFixed(3)}{" "}
+                  mm
+                </Typography>
+                <Typography>
+                  Rx:
+                  {(currentTargetTcp.Rx >= 0 ? " +" : " ") +
+                    currentTargetTcp.Rx.toFixed(2)}{" "}
+                  deg
+                </Typography>
+                <Typography>
+                  Ry:
+                  {(currentTargetTcp.Ry >= 0 ? " +" : " ") +
+                    currentTargetTcp.Ry.toFixed(2)}{" "}
+                  deg
+                </Typography>
+                <Typography>
+                  Rz:{" "}
+                  {(currentTargetTcp.Rz >= 0 ? " +" : " ") +
+                    currentTargetTcp.Rz.toFixed(2)}{" "}
+                  deg
+                </Typography>
+              </Stack>
+            </Stack>
+            <Button
+              disabled={
+                !dataConnected ||
+                robotProgramRunning ||
+                !getinputIsValid("x") ||
+                !getinputIsValid("y") ||
+                !getinputIsValid("z") ||
+                !getinputIsValid("rx") ||
+                !getinputIsValid("ry") ||
+                !getinputIsValid("rz") ||
+                !getinputIsValid("a") ||
+                !getinputIsValid("v")
+              }
+              onClick={() => {
+                send(
+                  "data",
+                  `movel(p[${currentTargetTcp.X / 1000},${
+                    currentTargetTcp.Y / 1000
+                  },${currentTargetTcp.Z / 1000},${
+                    currentTargetTcp.Rx * DEG2RAD
+                  },${currentTargetTcp.Ry * DEG2RAD},${
+                    currentTargetTcp.Rz * DEG2RAD
+                  }],a=${parseFloat(getInputValue("a"))},v=${parseFloat(
+                    getInputValue("v")
+                  )},t=0,r=0)\n`
+                ).catch(() => {});
+              }}
+              variant={"contained"}
+              fullWidth
+            >
+              {(moveMode === "relative" ? "상대 좌표 이동" : "절대 좌표 이동") +
+                (robotProgramRunning ? "중" : " 실행")}
+            </Button>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setMoveDialogOpen(false);
+            }}
+          >
+            닫기
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
+
+const MenuButton = styled(IconButton)({
+  width: 60,
+  height: 60,
+  borderRadius: 0,
+  "& .MuiTouchRipple-root .MuiTouchRipple-child": {
+    borderRadius: 0,
+  },
+});
