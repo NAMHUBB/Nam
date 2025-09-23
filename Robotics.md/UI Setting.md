@@ -1,4 +1,4 @@
-import { useAtomValue, useAtom } from "jotai";
+```import { useAtomValue, useAtom } from "jotai";
 import {
   Divider,
   FormControlLabel,
@@ -267,3 +267,4 @@ export const Settings: React.FC = () => {
     </Stack>
   );
 };
+```
