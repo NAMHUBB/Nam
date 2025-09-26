@@ -19,7 +19,7 @@
     t=0,r=0)\n`
 
 // [${settings.homePositionCommand.j1}, ...,${settings.homePositionCommand.j6}] 이 배열은 각 관절의 목표 각도를 담고 있음
-// j1 - j6까지 각 축이 몇 도(degree)까지 회전해야 하는 지를 지
+// j1 - j6까지 각 축이 몇 도(degree)까지 회전해야 하는 지를 지정
 // ${settings.homePositionCommand.j1}와 같은 코드는 미리 설정된 '홈 포지션'의 j1(1번 축) 각도 값을 가져와 명령어에 삽입하라는 의미
 // a=${settings.homePositionCommand.a}는 가속도로, 로봇이 정지 상태에서 설정된 목표 속도까지 얼마나 빨리 도달할지를 결정
 // v=${settings.homePositionCommand.v}는 속도를 의미하며, 로봇 관절이 목표 각도를 향해 움직이는 최대 속도를 지정
@@ -50,7 +50,7 @@
 // ${currentTargetTcp.Rx * DEG2RAD}에서 방향 값(Rx, Ry, Rz)을 DEG2RAD와 곱하는 이유는 단위 변환을 하기 위함. UI에서 사람이 이해하기 쉬운 도(Degree)단위를 사용하고, 로봇 컨트롤러는 수학 계산에 용이한 라디안(Radian)단위를 사용하기 때문.
 // (DEG2RAD는 π / 180일듯)
 // getInputValue("v"), getInputValue("a")는 UI입력 필드에서 속도와 가속도를 가져옴
-// parseFloat(...)는 getInputValue를 통해 가져온 값은 문자열(string)형태이므로, parseFloat함수를 사용해 소수점까지 인식하는 숫자(number)형태로 반환하여 명령어를 넣어
+// parseFloat(...)는 getInputValue를 통해 가져온 값은 문자열(string)형태이므로, parseFloat함수를 사용해 소수점까지 인식하는 숫자(number)형태로 반환하여 명령어를 넣어줌
 // t=0, r=0: 이동 시간을 지정하지 않고(t=0), 목표 지점에서 정확히 정지(r=0)하라는 의미
 
 ```
