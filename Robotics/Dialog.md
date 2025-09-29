@@ -79,7 +79,7 @@ function MyDialogComponent() {
 
 ```
 ``` javascript
-<Dialog
+        <Dialog
         open={homeCommandDialogOpen}
         onClose={() => setHomeCommandDialogOpen(false)}
       >
