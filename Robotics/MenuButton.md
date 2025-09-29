@@ -89,7 +89,7 @@ function MyMenu() {
               </MenuButton>
 
 ```
-``` jacascript
+``` javascript
 
               <MenuButton
                 disabled={!dataConnected || robotProgramRunning}
