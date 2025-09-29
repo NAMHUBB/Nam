@@ -78,8 +78,31 @@ function MyDialogComponent() {
 }
 
 ```
-
-
+``` javascript
+<Dialog
+        open={homeCommandDialogOpen}
+        onClose={() => setHomeCommandDialogOpen(false)}
+      >
+        <DialogTitle>{"홈 위치로 이동"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>홈 위치로 이동하시겠습니까?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setHomeCommandDialogOpen(false)}>취소</Button>
+          <Button
+            onClick={() => {
+              setHomeCommandDialogOpen(false);
+              send(
+                "data",
+                `movej([${settings.homePositionCommand.j1},${settings.homePositionCommand.j2},${settings.homePositionCommand.j3},${settings.homePositionCommand.j4},${settings.homePositionCommand.j5},${settings.homePositionCommand.j6}],a=${settings.homePositionCommand.a},v=${settings.homePositionCommand.v},t=0,r=0)\n`
+              ).catch(() => {});
+            }}
+          >
+            확인
+          </Button>
+        </DialogActions>
+      </Dialog>
+```
 
 
 
