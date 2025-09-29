@@ -1,7 +1,7 @@
 # 로봇 이동 관련 표준 명령어
 
 ## 1. 관절 공간 이동 (Joint Movement)
-**moveJ (Move Joint)**
+**movej (Move Joint)**
 : 로봇의 각 관절(축) 각도를 직접 지정하여 움직이는 방식입니다. 로봇이 가장 자연스럽고 빠르게 움직일 수 있지만, 로봇 팔 끝(End Effector)이 직선으로 움직이지 않고 곡선 궤적을 그립니다.
 
 ### 필요한 값
@@ -29,7 +29,7 @@
 
 
 ## 2. 직선 이동 (Linear Movement)
-**moveL (Move Linear)**
+**movel (Move Linear)**
 :로봇 팔 끝(End Effector)이 현재 위치에서 목표 위치까지 직선 경로를 그리며 움직이는 방식입니다. 로봇은 직선 경로를 유지하기 위해 내부적으로 여러 관절의 각도를 복잡하게 계산합니다.
 
 ### 필요한 값
@@ -55,7 +55,7 @@
 
 ```
 ## 3. 원호 이동 (Circular Movement)
-**moveC (Move Circular)**
+**movec (Move Circular)**
 :로봇 팔 끝이 두 지점을 통과하는 원호(arc)를 그리며 움직이는 방식입니다.
 
 ### 필요한 값
