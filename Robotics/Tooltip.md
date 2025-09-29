@@ -9,6 +9,68 @@
   - 필수 정보는 담지 않기
   - 상호작용은 피하기
   - 즉각적인 도움 주기
+
+
+``` javascript
+
+          <Tooltip
+            title={controlConnected && dataConnected ? "연결됨" : "연결 안 됨"}
+          >
+            <span>
+              <MenuButton
+                onClick={() => {
+                  if (!controlConnected || !dataConnected) {
+                    const promises = [
+                      connect(
+                        "control",
+                        `${settings.ip}:${settings.controlPort}`
+                      ),
+                      connect("data", `${settings.ip}:${settings.dataPort}`),
+                    ];
+                    Promise.all(promises)
+                      .then(() => {
+                        setControlConnected(true);
+                        setDataConnected(true);
+                      })
+                      .catch(() => {
+                        disconnect("control").then(() => {
+                          setControlConnected(false);
+                        });
+                        disconnect("data").then(() => {
+                          setDataConnected(false);
+                        });
+                      });
+                  } else {
+                    send("control", "power off\n")
+                      .then(() => {
+                        disconnect("control").then(() => {
+                          setControlConnected(false);
+                        });
+                        disconnect("data").then(() => {
+                          setDataConnected(false);
+                        });
+                      })
+                      .catch(() => {
+                        disconnect("control").then(() => {
+                          setControlConnected(false);
+                        });
+                        disconnect("data").then(() => {
+                          setDataConnected(false);
+                        });
+                      });
+                  }
+                }}
+              >
+                {controlConnected && dataConnected ? (
+                  <LinkIcon />
+                ) : (
+                  <LinkOffIcon />
+                )}
+              </MenuButton>
+            </span>
+          </Tooltip>
+
+````
   
 ``` javascript
 
