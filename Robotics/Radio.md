@@ -1,4 +1,4 @@
-# Radio
+# Radio & Radiogroup
 - 정의
   
   여러 선택지 중 단 하나만 고를 수 있는 동그란 모양의 버튼이며, RadioGroup은 이러한 Radio 버튼들을 하나의 그룹으로 묶어주는 컨테이너
