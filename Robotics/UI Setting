@@ -1,4 +1,6 @@
-```import { useAtomValue, useAtom } from "jotai";
+``` javascript
+
+import { useAtomValue, useAtom } from "jotai";
 import {
   Divider,
   FormControlLabel,
