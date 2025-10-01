@@ -1,3 +1,5 @@
+``` javascript
+
 import { Canvas } from "@react-three/fiber";
 import { Grid, OrbitControls, TransformControls } from "@react-three/drei";
 import { TransformControls as TransformControlsImpl } from "three-stdlib";
@@ -417,3 +419,5 @@ export const App: React.FC = () => {
     </>
   );
 };
+
+```
