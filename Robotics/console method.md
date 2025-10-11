@@ -1,0 +1,3 @@
+# console method
+
+## console.log()
