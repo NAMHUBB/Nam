@@ -30,6 +30,7 @@
     (Jotai, Zustand 같은 상태 관리 라이브러리들이 내부적으로 이 Hook을 활용
     
   - **useReducer**: "상태 기계 관리 센터"
+  - 
     로봇의 복잡한 상태 머신(state machine)을 관리하는 데 매우 유용
     IDLE -> RUNNING -> PAUSED 와 같이 명확한 규칙에 따라 상태가 변경되도록 로직을 중앙에서 관리할 수 있음
   
