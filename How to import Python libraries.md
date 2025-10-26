@@ -1,29 +1,50 @@
-Python에서 라이브러리(모듈이나 패키지)를 가져오는 기본적인 방법은 크게 두 가지가 있으며, 코드에서 보신 import ... as ...와 from ... import ...가 여기에 해당됩니다.
 
-import 모듈이름:
+1. **import 모듈이름**:
+
 가장 기본적인 형태입니다.
+
 모듈이름.함수이름 또는 모듈이름.클래스이름 형태로 사용합니다.
-예: import math, math.sqrt(4)
+
+예: import math
+
+math.sqrt(4)
 
 
-import 모듈이름 as 별칭:
+2. **import 모듈이름 as 별칭**:
+
 모듈 이름을 더 짧거나 편리한 이름으로 사용하고 싶을 때 사용합니다.
+
 별칭.함수이름 또는 별칭.클래스이름 형태로 사용합니다.
-예: import numpy as np, np.array([1, 2, 3])
+
+예: import numpy as np
+
+np.array([1, 2, 3])
 
 
-from 모듈이름 import 함수나클래스이름:
+3. **from 모듈이름 import 함수나클래스이름**:
+
 모듈 전체를 가져오는 대신, 그 안에 있는 특정 함수, 클래스 또는 변수만 가져올 때 사용합니다.
+
 가져온 이름들을 모듈 이름 없이 바로 사용할 수 있습니다.
-예: from math import sqrt, sqrt(4)
+
+예: from math import sqrt
+
+sqrt(4)
 
 
-from 모듈이름 import 함수나클래스이름 as 별칭:
+4. **from 모듈이름 import 함수나클래스이름 as 별칭**:
+
 from ... import ...로 가져온 이름에 별칭을 붙이고 싶을 때 사용합니다.
-예: from tensorflow.keras.models import Sequential as Seq, Seq()
+
+예: from tensorflow.keras.models import Sequential as Seq
+
+Seq()
 
 
-from 모듈이름 import *:
+5. **from 모듈이름 import**:
+
 모듈 안의 모든 것을 가져옵니다.
+
 사용하기 편리해 보이지만, 어떤 이름들이 가져와지는지 명확하지 않고 다른 모듈의 이름과 충돌할 가능성이 있어 일반적으로 권장되지 않는 방식입니다.
+
 코드에서 보신 방식들은 Python에서 라이브러리의 특정 기능들을 사용하기 위해 표준적으로 사용되는 방법들입니다.
