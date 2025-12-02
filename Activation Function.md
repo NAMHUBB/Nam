@@ -87,9 +87,31 @@ ResNet, MobileNet 등 현대 모델
   
 - EfficientNet에서 사용
 
+🔵 활성함수 선택 기준
 
+| 작업 유형        | 추천 활성함수         | 이유           |
+| ------------ | --------------- | ------------ |
+| CNN 은닉층      | **ReLU** | 빠르고 안정적      |
+| RNN          | **Tanh**        | 시계열에 적합      |
+| 이진 분류        | **Sigmoid**     | 0~1 확률       |
+| 다중 분류        | **Softmax**     | 확률 분포        |
+| 강화학습 Actor   | **Tanh**        | [-1,1] 범위 제어 |
+| 임베디드/로봇      | **ReLU**        | 계산 단순        |
 
+🔵 TensorFlow 코드 예시
 
+``` python
+import tensorflow as tf
+from tensorflow.keras import layers, models
+
+model = models.Sequential([
+    layers.Dense(128, activation='relu'),
+    layers.Dense(64, activation=tf.nn.leaky_relu),
+    layers.Dense(32, activation='tanh'),
+    layers.Dense(3, activation='softmax')  # 다중 분류
+])
+
+```
 
 
 
