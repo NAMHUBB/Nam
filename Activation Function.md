@@ -15,6 +15,8 @@
 
 필요한 특징은 크게, 불필요한 특징은 작게 함.
 
+# 3. 주요 활성함수 정리
+
 1️⃣ Sigmoid
 
 수식:
@@ -59,12 +61,31 @@
 
 ResNet, MobileNet 등 현대 모델
 
+4️⃣ Leaky ReLU
 
+- 음수 영역도 0.01x 만큼 통과시켜 ReLU의 단점 개선.
 
+- 사용: GAN, CNN 일반 모델
 
+5️⃣ Softmax
 
+- 여러 클래스 확률 출력
 
+- 출력 합 = 1
 
+- 사용: 다중 분류 문제의 출력층
+
+9️⃣ Swish
+
+수식:
+
+<img width="242" height="136" alt="image" src="https://github.com/user-attachments/assets/7114571e-1d12-4184-97dd-5a7084ee2fa9" />
+
+- Google이 제안
+  
+- ReLU보다 높은 정확도
+  
+- EfficientNet에서 사용
 
 
 
