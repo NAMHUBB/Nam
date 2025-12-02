@@ -75,7 +75,7 @@ ResNet, MobileNet 등 현대 모델
 
 - 사용: 다중 분류 문제의 출력층
 
-9️⃣ Swish
+6️⃣ Swish
 
 수식:
 
