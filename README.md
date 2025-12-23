@@ -1,4 +1,4 @@
-**### NAM's study
+### NAM's study
 
 ---
 
@@ -76,14 +76,21 @@
 - Data Science
   - 데이터 전처리, 통계적 분석 및 시각화
     
-#### 
+#### ABC
+- abc
   - abc
-    - abc
-      - abc
-#### AI
   - abc
-    - abc
-      - abc
+        
+#### ABC
+- abc
+  - abc
+  - abc
+    
+#### ABC
+- abc
+  - abc
+  - abc
+        
 
 
 
@@ -104,11 +111,3 @@
 
 
 
-
-
-
-
-
-
-
-**
