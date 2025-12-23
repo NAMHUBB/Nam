@@ -4,12 +4,22 @@
 
 #### Computing Foundation
 - Processing Unit
-  - CPU: 명령어 집합(ISA), 마이크로아키텍처
-  - GPU/NPU: 병렬 처리, 가속기 구조
-- Computer Architecture
-  - Memory Hierarchy: 캐시, RAM, SSD의 속도 차이와 관리
-  - Bus System: 구성 요소 간 데이터 전송 통로
-    
+  - Central Processing Unit (CPU): 명령어 집합(ISA), 마이크로아키텍처, Control Unit (제어장치), Arithmetic Logic Unit (ALU), Registers
+  - Parallel Processing: GPU (Graphics Processing Unit), NPU (Neural Processing Unit)
+  - Instruction Set Architecture (ISA): x86/x64, ARM
+- Memory Hierarchy
+  - Internal Memory: L1, L2, L3 Cache, Register
+  - Main Memory: RAM (DRAM), ROM
+  - Storage: SSD (Flash Memory), HDD
+- System Interconnect
+  - Bus System: Data Bus, Address Bus, Control Bus
+  - I/O Interface: PCIe, DMA (Direct Memory Access)
+- Logic & Digital Circui
+  - Logic Gates: 기본 게이트, 복합 게이트
+  - Combinational & Sequential Logic: 조합 회로, 순차 회로
+- Data Representation
+  - Number Systems: Binary/Hexadecimal, Floating Point
+  - Character Encoding: ASCII/Unicode
 #### Operating System
 - OS
   - Kernel: 프로세스 관리, 스레드, CPU 스케줄링
