@@ -65,13 +65,11 @@
 - Data Modeling
   - 스키마 설계, 정규화(Normalization), 인덱싱(Indexing)
         
-#### Cloud & DevOps
+#### Cloud 
 - Cloud
-  - Cloud Service: AWS, Azure, GCP 기반 자원 관리
-  - Infrastructure as Code (IaC): 코드로 관리하는 인프라
-- Virtualization
-  - Container: Docker를 이용한 환경 격리
-  - Orchestration: Kubernetes를 통한 대규모 서버 관리
+  - IaaS (Infrastructure as a Service)
+  - PaaS (Platform as a Service)
+  - SaaS (Software as a Service)
 
 #### Cyber Security
 - Cyber Security
