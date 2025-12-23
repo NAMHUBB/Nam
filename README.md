@@ -20,6 +20,7 @@
 - Data Representation
   - Number Systems: Binary/Hexadecimal, Floating Point
   - Character Encoding: ASCII/Unicode
+    
 #### Operating System
 - [OS](https://github.com/NAMHUBB/Nam/blob/main/OS/What%20is%20OS%20%3F.md)
   - Kernel: 프로세스 관리, 스레드, CPU 스케줄링
