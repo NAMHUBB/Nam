@@ -21,7 +21,7 @@
   - Number Systems: Binary/Hexadecimal, Floating Point
   - Character Encoding: ASCII/Unicode
 #### Operating System
-- OS
+- [OS] (https://github.com/NAMHUBB/Nam/blob/main/OS/What%20is%20OS%20%3F.md)
   - Kernel: 프로세스 관리, 스레드, CPU 스케줄링
   - Memory Management: 가상 메모리, 할당 및 해제 정책
   - File System: 데이터의 물리적 저장 및 관리 방식
