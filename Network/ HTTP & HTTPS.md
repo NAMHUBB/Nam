@@ -4,7 +4,7 @@
 
 #### - HTTP (HyperText Transfer Protocol)
 
-- **설명**
+        - **설명**
 
 HTTP는 인터넷에서 데이터를 주고받는 가장 기본적인 프로토콜. 
 
