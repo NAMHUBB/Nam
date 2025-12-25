@@ -49,7 +49,7 @@
   - IP: 주소 할당, 서브네팅, 라우팅 원리
 - Communication Protocols
   - [HTTP/HTTPS: 웹 통신 프로토콜](https://github.com/NAMHUBB/Nam/blob/main/Network/%20HTTP%20&%20HTTPS.md)
-  - Web Socket: 실시간 양방향 통신
+  - [Web Socket: 실시간 양방향 통신](https://github.com/NAMHUBB/Nam/blob/main/Network/Web%20Socket.md)
         
 #### Web Infrastructure
 - Server
