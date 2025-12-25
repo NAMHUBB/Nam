@@ -18,6 +18,7 @@ HTML 문서, 이미지, 동영상 등을 브라우저로 가져올 때 사용.
 
 기본 포트: 80번
 
+
 #### HTTPS (HyperText Transfer Protocol Secure)
 
 - **설명**
@@ -44,12 +45,10 @@ SSL/TLS 인증서가 필요하며, 이를 통해 접속한 사이트가 신뢰�
  반면 HTTPS는 자물쇠 아이콘🔒을 보여주어 사용자에게 안심을 줌.
 
 
+#### SSL과 TLS란?
 
-
-5. 추가 지식: SSL과 TLS란?
-HTTPS를 설명할 때 항상 나오는 용어입니다.
-• SSL (Secure Sockets Layer): 초기에 개발된 보안 프로토콜입니다. 현재는 보안 취약점이 발견되어 사용하지 않습니다.
-• TLS (Transport Layer Security): SSL을 계승하여 보안을 강화한 표준 프로토콜입니다. 우리가 흔히 "SSL 인증서"라고 부르지만, 실제 기술적으로는 TLS를 사용하고 있습니다.
+- **SSL (Secure Sockets Layer)**: 초기에 개발된 보안 프로토콜입니다. 현재는 보안 취약점이 발견되어 사용하지 않습니다.
+- **TLS (Transport Layer Security)**: SSL을 계승하여 보안을 강화한 표준 프로토콜. 흔히 "SSL 인증서"라고 부르지만, 실제 기술적으로는 TLS를 사용하고 있음.
 
 
 
