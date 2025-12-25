@@ -48,7 +48,7 @@
   - OSI 7 Layer & TCP/IP: 통신 계층의 표준 모델
   - IP: 주소 할당, 서브네팅, 라우팅 원리
 - Communication Protocols
-  - HTTP/HTTPS: 웹 통신 규약
+  - [HTTP/HTTPS: 웹 통신 프로토콜](https://github.com/NAMHUBB/Nam/blob/main/Network/%20HTTP%20&%20HTTPS.md)
   - Web Socket: 실시간 양방향 통신
         
 #### Web Infrastructure
