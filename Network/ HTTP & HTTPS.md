@@ -2,7 +2,7 @@
 
 ---
 
-#### HTTP (HyperText Transfer Protocol)
+#### - HTTP (HyperText Transfer Protocol)
 
 - **설명**
 
