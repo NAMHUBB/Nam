@@ -69,7 +69,7 @@
         
 #### Cloud 
 - Cloud
-  - [IaaS/PaaS/SaaS](https://github.com/NAMHUBB/Nam/blob/main/Cloud/IaaS%20&%20PaaS%20&%20SaaS.md)
+  - [IaaS/PaaS/SaaS: 클라우드 컴퓨팅 서비스 모델](https://github.com/NAMHUBB/Nam/blob/main/Cloud/IaaS%20&%20PaaS%20&%20SaaS.md)
 
 #### Cyber Security
 - Cyber Security
