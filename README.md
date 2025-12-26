@@ -48,6 +48,7 @@
   - OSI 7 Layer & TCP/IP: 통신 계층의 표준 모델
   - IP: 주소 할당, 서브네팅, 라우팅 원리
   - Ethernet: 유선 근거리 통신망(LAN) 기술의 국제 표준(IEEE 802.3)
+  - CAN: OSI 7계층 중 1계층(물리)과 2계층(데이터 링크)을 담당하는 기술
 - Application Protocols
   - [HTTP/HTTPS: 웹 통신 프로토콜](https://github.com/NAMHUBB/Nam/blob/main/Network/%20HTTP%20&%20HTTPS.md)
   - [Web Socket: 실시간 양방향 통신](https://github.com/NAMHUBB/Nam/blob/main/Network/Web%20Socket.md)
