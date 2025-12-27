@@ -47,7 +47,7 @@
 - Network Fundamentals
   - [OSI 7 Layer model: 통신 계층의 표준 모델](https://github.com/NAMHUBB/Nam/blob/main/Network/OSI%207%20Layer%20Model.md)
   - IP: 주소 할당, 서브네팅, 라우팅 원리
-  - EtherCat(Ethernet): 유선 근거리 통신망(LAN) 기술의 국제 표준 (IEEE 802.3)
+  - Ethernet: 유선 근거리 통신망(LAN) 기술의 국제 표준 (IEEE 802.3)
   - EtherCAT: 실시간성을 보장하는 산업용 이더넷 표준 (IEC 61158)
   - CAN: OSI 7계층 중 1계층(물리)과 2계층(데이터 링크)을 담당하는 기술
 - Application Protocols
