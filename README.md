@@ -42,6 +42,7 @@
   - [C++: 고성능 시스템 및 로봇 제어 언어](https://github.com/NAMHUBB/Nam/tree/main/CPP)
   - Python: AI 및 데이터 처리 스크립트 언어
   - [TypeScript / JavaScript: 웹 인터페이스 및 로봇 관제 시스템 개발](https://github.com/NAMHUBB/Nam/tree/main/javascript.md)
+    - 123
     
 #### Network & Connectivity
 - Network Fundamentals
