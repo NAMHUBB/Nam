@@ -36,20 +36,12 @@
   - 비선형 구조: Tree, Graph, Hash Table (알고리즘의 재료)
     
 #### Programming Languages & Dev
-- CS Theory (이론 및 개념)
-  - 컴파일러/인터프리터: 소스코드가 기계어로 변환되는 과정
-  - 프로그래밍 패러다임: 객체지향(OOP), 함수형 프로그래밍
-  - 메모리 관리: Stack vs Heap, 가비지 컬렉션(GC) vs 수동 관리
 
-- Languages (Tech Stack)
+- Languages
   - Rust: 메모리 안전성을 보장하는 시스템 프로그래밍 언어
   - C++: 고성능 시스템 및 로봇 제어 언어 
   - Python: AI 및 데이터 처리 스크립트 언어
   - TypeScript / JavaScript: 웹 인터페이스 및 로봇 관제 시스템 개발
-
-- Software Engineering
-  - Design Patterns: 코드의 구조적 설계 방법 (Singleton, Factory 등)
-  - Version Control: Git, GitHub를 통한 협업 및 형상 관리
     
 #### Network & Connectivity
 - Network Fundamentals
