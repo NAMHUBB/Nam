@@ -56,9 +56,7 @@ console.log(name+"님, 어서오세요!");
 ```
 
 ![image](https://github.com/user-attachments/assets/431281f2-3c94-46ce-a594-d834c1a05ce1)
-![image](https://github.com/user-attachments/assets/31645881-7bc7-48b3-9318-feed8a9380e8)
-
-# 자바스크립트 소스를 작성할 떄 지켜야 할 규칙
+때 지켜야 할 규칙
 1. 대소문자를 구별하여 소스를 작성
 2. 읽기 쉽게 들여 쓰는 습관 갖기
 3. 세미콜론으로 문장을 구분
