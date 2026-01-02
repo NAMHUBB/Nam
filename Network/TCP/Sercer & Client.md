@@ -1,5 +1,5 @@
 
-### 서버(Server) 코드 만들기
+### 서버(Server) 코드
 
 ``` Python
 import socket
@@ -24,7 +24,35 @@ conn.send("안녕, 나는 맥 서버야!".encode())
 conn.close()
 ```
 
-### 클라이언트(Client) 코드 만들기
+``` Python
+import socket
+import time
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(('localhost', 8080))
+server.listen(1)
+
+print("Step 1: [대기] 서버가 8080번 포트에서 귀를 기울이고 있습니다...")
+
+conn, addr = server.accept()
+print(f"Step 2: [연결 완료] {addr} 주소의 손님이 입장했습니다!")
+
+while True:
+    data = conn.recv(1024).decode()
+    if not data: break
+    print(f"Step 3: [수신] 손님이 보낸 메시지: {data}")
+    
+    time.sleep(1) # 시각적인 확인을 위해 1초 대기
+    conn.send("메시지 잘 받았다!".encode())
+    print("Step 4: [응답] 확인 메시지를 보냈습니다.")
+
+conn.close()
+print("Step 5: [종료] 통신이 끝났습니다.")
+
+```
+
+
+### 클라이언트(Client) 코드
 
 ``` Python
 import socket
@@ -38,3 +66,5 @@ print(f"서버의 응답: {response}")
 
 client.close()
 ```
+ 
+
