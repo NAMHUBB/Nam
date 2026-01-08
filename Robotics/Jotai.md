@@ -11,7 +11,7 @@ React 상태 관리 라이브러리
 : 읽기 전용 Hook
 
 #### useSetAtom
-: 쓰기 전용(Write-only) Hook
+: 쓰기 전용 Hook
 
 
 
