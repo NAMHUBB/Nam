@@ -18,19 +18,19 @@ https://yarnpkg.com
 
 Yarn Berry(v2~v4)는 기존의 패키지 관리 방식인 node_modules의 고질적인 문제를 해결하기 위해 등장한 혁신적인 패키지 관리 시스템.
 
-- Plug'n'Play (PnP):
+- **Plug'n'Play (PnP**):
 
   - node_modules 폴더 대신 패키지 위치 정보가 담긴 .pnp.cjs 파일 하나로 관리합니다.
 
   - Node.js가 패키지를 찾기 위해 모든 폴더를 뒤지는 시간(I/O 부하)이 획기적으로 줄어듭니다.
 
-- 유령 의존성(Ghost Dependency) 해결:
+- **유령 의존성(Ghost Dependency) 해결**:
 
   - 내가 직접 설치하지 않은 라이브러리를 실수로 참조할 수 있는 보안 구멍을 완벽히 차단합니다.
 
   - 정확히 package.json에 명시된 패키지만 사용할 수 있어 앱의 안정성이 높아집니다.
 
-- Zero-install:
+- **Zero-install**:
 
   - 패키지를 압축 파일(.zip) 형태로 보관하므로 용량이 매우 작습니다.
 
