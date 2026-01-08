@@ -1,6 +1,6 @@
 ## GlobalStyles API
 
-Web이 아닌 Application처럼 보이게 만드는 Componeent API
+Web이 아닌 Application처럼 보이게 만드는 Component API
 
 ``` javascript
   <GlobalStyles
