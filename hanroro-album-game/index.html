@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자몽빛 비행 — 한로로 앨범 수록곡 퀴즈</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="hero">
+        <p class="tag">추천 도메인: <strong>jamflight.club</strong></p>
+        <h1>자몽빛 비행</h1>
+        <p>
+          한로로의 <em>자몽살구클럽</em>, <em>집</em>, <em>이상비행</em> 감성으로 만든
+          인디 앨범 커버 & 수록곡 맞히기 미니게임
+        </p>
+      </header>
+
+      <section class="board">
+        <div class="meta">
+          <span id="roundLabel">1 / 20</span>
+          <span id="scoreLabel">점수 0</span>
+        </div>
+
+        <article class="card">
+          <div class="cover" id="coverArt"></div>
+          <div class="question">
+            <h2 id="albumName"></h2>
+            <p id="promptText"></p>
+          </div>
+        </article>
+
+        <div class="choices" id="choices"></div>
+
+        <div class="actions">
+          <button id="nextBtn" disabled>다음 문제</button>
+          <button id="restartBtn" class="ghost">처음부터</button>
+        </div>
+
+        <p id="feedback" class="feedback"></p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
